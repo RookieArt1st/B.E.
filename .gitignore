@@ -1,32 +1,34 @@
-.DS_Store
-.attach_pid*
+# IntelliJ
+.idea/
+
+# Eclipse
 .classpath
-.factorypath
-.gradle
-.metadata
 .project
-.recommenders
-.settings
+.settings/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+*/target/
+
+# STS
 .springBeans
-.vscode
-/code
-MANIFEST.MF
-_site/
-activemq-data
-bin
-build
-!/**/src/**/bin
-!/**/src/**/build
-build.log
-dependency-reduced-pom.xml
-dump.rdb
-interpolated*.xml
-lib/
-manifest.yml
-out
-overridedb.*
-target
-.flattened-pom.xml
-secrets.yml
-.gradletasknamecache
-.sts4-cache
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
