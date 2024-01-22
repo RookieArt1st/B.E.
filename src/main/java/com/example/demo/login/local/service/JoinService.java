@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,9 +23,10 @@ import java.util.Optional;
 public class JoinService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     @Transactional
-    public ResponseEntity<ResponseDto> save(JoinRequestDto dto) {
-        Member savedMember = memberRepository.save(dto.toMemberEntity());
+    public ResponseEntity<ResponseDto> join(JoinRequestDto dto) {
+        Member savedMember = memberRepository.save(dto.toMemberEntity(passwordEncoder.encode(dto.getPw())));
 
         ResponseDto responseDto = ResponseDto.builder()
                 .id(savedMember.getId())
@@ -48,21 +50,20 @@ public class JoinService {
     @Transactional(readOnly = true)
     public ResponseEntity<ResponseDto> find(LoginRequestDto dto) {
         try {
-            Member member = dto.toMemberEntity();
-            Optional<Member> user = memberRepository.findByUsername(member.getUsername());
+            Member member = dto.toMemberEntity();   // 로그인할 Id, pw 넣을 때
+            Optional<Member> user = memberRepository.findByUsername(member.getUsername());      // 해당 id가 존재하는지 여부
 
-            if (user.isPresent()) {
+            if (user.isPresent() && passwordEncoder.matches(dto.getPw(), user.get().getPassword())) {
                 member = user.get();
-                Long memberId = member.getId();
 
                 ResponseDto responseDto = ResponseDto.builder()
-                        .id(memberId)
+                        .id(member.getId())
                         .username(member.getUsername())
                         .build();
 
                 URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                         .path("/{id}")
-                        .buildAndExpand(memberId)
+                        .buildAndExpand(member.getId())
                         .toUri();
 
                 return ResponseEntity.created(location).body(responseDto);

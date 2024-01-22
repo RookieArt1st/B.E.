@@ -23,9 +23,9 @@ public class JoinRequestDto {
         this.card_number = card_number;
     }
 
-    public Member toMemberEntity() {
+    public Member toMemberEntity(String encode) {
         return Member.builder()
-                .password(this.pw)
+                .password(encode)
                 .username(this.username)
                 .createdAt(LocalDateTime.now()) // 현재 시간으로 초기화
                 .role(MemberType.USER)

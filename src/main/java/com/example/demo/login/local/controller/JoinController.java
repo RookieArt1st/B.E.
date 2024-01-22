@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,7 +21,7 @@ public class JoinController {
 
     @PostMapping("/create")     // 회원가
     public ResponseEntity<ResponseDto> create(@RequestBody JoinRequestDto dto) {
-        ResponseEntity<ResponseDto> responseEntity = joinService.save(dto);
+        ResponseEntity<ResponseDto> responseEntity = joinService.join(dto);
 
         // 성공이면 상태 코드를 OK로 변경
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
