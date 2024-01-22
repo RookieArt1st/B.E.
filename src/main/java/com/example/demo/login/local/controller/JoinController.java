@@ -1,7 +1,7 @@
 package com.example.demo.login.local.controller;
 
-import com.example.demo.login.local.dto.JoinRequestDto;
-import com.example.demo.login.local.dto.ResponseDto;
+import com.example.demo.login.local.record.JoinRequestRecord;
+import com.example.demo.login.local.record.ResponseRecord;
 import com.example.demo.login.local.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class JoinController {
 
     private final JoinService joinService;
 
-    @PostMapping("/")     // 회원가
-    public ResponseEntity<ResponseDto> create(@RequestBody JoinRequestDto dto) {
-        ResponseEntity<ResponseDto> responseEntity = joinService.join(dto);
+    @PostMapping("/signUp")     // 회원가입
+    public ResponseEntity<ResponseRecord> create(@RequestBody JoinRequestRecord joinRequest) {
+        ResponseEntity<ResponseRecord> responseEntity = joinService.join(joinRequest);
         return joinService.handleJoinResponse(responseEntity);
     }
 

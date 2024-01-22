@@ -1,7 +1,7 @@
 package com.example.demo.login.local.controller;
 
-import com.example.demo.login.local.dto.LoginRequestDto;
-import com.example.demo.login.local.dto.ResponseDto;
+import com.example.demo.login.local.record.LoginRequestRecord;
+import com.example.demo.login.local.record.ResponseRecord;
 import com.example.demo.login.local.service.JoinService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/login")
+@RequestMapping("/main")
 @RequiredArgsConstructor
 public class LoginController {
 
     private final JoinService joinService;
 
-    @PostMapping("/check")
-    public ResponseEntity<ResponseDto> check(@RequestBody LoginRequestDto dto, HttpSession session) {
-        ResponseEntity<ResponseDto> responseEntity = joinService.find(dto);
+    @PostMapping("/login")
+    public ResponseEntity<ResponseRecord> login(@RequestBody LoginRequestRecord loginRequest, HttpSession session) {
+        ResponseEntity<ResponseRecord> responseEntity = joinService.find(loginRequest);
 
         // 성공
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
@@ -30,8 +30,8 @@ public class LoginController {
             session.setAttribute("loginUser", responseEntity.getBody());
 
             // 세션 정보 체크
-            ResponseDto loginUser = (ResponseDto) session.getAttribute("loginUser");
-            log.info("세션에 저장된 사용자 정보: {}", loginUser.getUsername());
+            ResponseRecord loginUser = (ResponseRecord) session.getAttribute("loginUser");
+            log.info("세션에 저장된 사용자 정보: {}", loginUser.username());
 
             return ResponseEntity.ok(responseEntity.getBody());
         }
