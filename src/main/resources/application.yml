@@ -1,5 +1,8 @@
 server:
     port: 8080 # ?? ?? ????
+    servlet:
+      session:
+          timeout: 30m
 
 spring:
     # H2 Database ??
@@ -33,3 +36,4 @@ spring:
                 registration:
                   naver:
                       client
+
