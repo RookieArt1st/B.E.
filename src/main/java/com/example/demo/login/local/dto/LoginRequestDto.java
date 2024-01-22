@@ -1,26 +1,19 @@
-package com.example.demo.dto;
+package com.example.demo.login.local.dto;
 
-import com.example.demo.entity.Member;
-import lombok.*;
+import com.example.demo.login.local.entity.Member;
+import lombok.Getter;
 
 @Getter
-@Builder
-public class MemberRequestDto {
-    private String pw;
-    private String username;
-    private String address;
-    private String phone_number;
-    private String card_number;
+public class LoginRequestDto {
 
-    public MemberRequestDto(String pw, String username, String address, String phone_number, String card_number) {
-        this.pw = pw;
+    private String username;
+    private String pw;
+    public LoginRequestDto(String username, String pw) {
         this.username = username;
-        this.address = address;
-        this.phone_number = phone_number;
-        this.card_number = card_number;
+        this.pw = pw;
     }
 
-    public Member toUserEntity() {
+    public Member toMemberEntity() {
         // 순서를 맞춰서 생성자 호출
         return new Member(
                 null, // id는 자동으로 생성되므로 null로 초기화
@@ -31,9 +24,9 @@ public class MemberRequestDto {
                 false, // isArtist는 기본값으로 초기화
                 null, // image는 기본값으로 초기화
                 0, // art_piece_count는 기본값으로 초기화
-                this.address,
-                this.phone_number,
-                this.card_number,
+                null,
+                null,
+                null,
                 0 // sales_art_count는 기본값으로 초기화
         );
     }

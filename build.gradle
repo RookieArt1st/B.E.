@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com.example'
@@ -15,6 +16,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExt // asciidoctorExt에 대한 종속성 구성 선언
 }
 
 repositories {
@@ -31,6 +33,22 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	// asciidoctorExt에 의존성 추가
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	// MockMvc 의존성 추가
+}
+ext { // 스니펫 생성 디렉토리 설정
+	snippetsDir = file('build/generated-snippets')
+}
+
+test { // 스니펫 생성 test 테스크 설정
+	outputs.dir snippetsDir
+}
+asciidoctor { // asciidoctor 테스크 성정
+	inputs.dir snippetsDir // 스니펫 위치 설정
+	configurations 'asciidoctorExt' // asciidoctor 확장 설정
+	dependsOn test // test 테스크 후 asciidoctor 실행 설정
 }
 
 tasks.named('test') {

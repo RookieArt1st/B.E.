@@ -26,3 +26,10 @@ spring:
                 dialect: org.hibernate.dialect.H2Dialect
                 format_sql: true      # ?? ?? ?? (??)
                 show_sql: true        # ?? ?? ??
+
+    security:
+        oauth2:
+            client:
+                registration:
+                  naver:
+                      client

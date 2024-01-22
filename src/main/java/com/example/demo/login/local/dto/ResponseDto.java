@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.login.local.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,8 +7,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberResponseDto {
+@AllArgsConstructor
+public class ResponseDto {
     private Long id;
     private String username;
 }
+
