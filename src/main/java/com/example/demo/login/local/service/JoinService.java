@@ -42,10 +42,10 @@ public class JoinService {
     }
 
     @Transactional(readOnly = true)
-    public boolean isUniqueNickName(String username) {
-        Optional<Member> existingMember = memberRepository.findByUsername(username);
-        return existingMember.isEmpty();
+    public boolean isUniqueUsername(String username) {
+        return memberRepository.findByUsername(username).isEmpty();
     }
+
 
     @Transactional(readOnly = true)
     public ResponseEntity<ResponseDto> find(LoginRequestDto dto) {
@@ -69,12 +69,21 @@ public class JoinService {
                 return ResponseEntity.created(location).body(responseDto);
             }
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(0L, "User not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(0L, "User not found","Absent User"));
 
         } catch (Exception e) {
             // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto(0L, "Error occurred"));
+            log.error("로그인 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto(0L, "Error occurred", "Error"));
         }
     }
 
+    public ResponseEntity<ResponseDto> handleJoinResponse(ResponseEntity<ResponseDto> responseEntity) {
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            log.info("회원가입에 성공했습니다.");
+            return ResponseEntity.ok(responseEntity.getBody());
+        }
+        log.info("회원가입에 실패했습니다.");
+        return responseEntity;
+    }
 }

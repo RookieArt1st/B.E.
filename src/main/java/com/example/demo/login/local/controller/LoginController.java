@@ -45,12 +45,6 @@ public class LoginController {
     public ResponseEntity<String> logout(HttpSession session) {
         // 세션 만료시키기
         session.invalidate();
-
-        // 로그아웃 후 세션에 저장된 정보 출력
-        //log.info(String.valueOf(session.getAttributeNames()));
-        //ResponseDto loginUser = (ResponseDto) session.getAttribute("loginUser");
-        //log.info("로그아웃 후 세션에 저장된 사용자 정보: {}", loginUser);
-
         return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 }

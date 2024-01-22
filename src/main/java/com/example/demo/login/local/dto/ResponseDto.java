@@ -11,5 +11,6 @@ import lombok.Getter;
 public class ResponseDto {
     private Long id;
     private String username;
+    private String message;
 }
 
