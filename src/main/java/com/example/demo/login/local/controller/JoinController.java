@@ -19,7 +19,7 @@ public class JoinController {
 
     private final JoinService joinService;
 
-    @PostMapping("/signUp")     // 회원가입
+    @PostMapping("/join")     // 회원가입
     public ResponseEntity<ResponseRecord> create(@RequestBody JoinRequestRecord joinRequest) {
         ResponseEntity<ResponseRecord> responseEntity = joinService.join(joinRequest);
         return joinService.handleJoinResponse(responseEntity);

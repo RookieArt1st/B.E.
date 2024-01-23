@@ -20,25 +20,8 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseRecord> login(@RequestBody LoginRequestRecord loginRequest, HttpSession session) {
-        ResponseEntity<ResponseRecord> responseEntity = joinService.find(loginRequest);
-
-        // 성공
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            log.info("로그인에 성공했습니다.");
-
-            // 세션 정보에 로그인 저장
-            session.setAttribute("loginUser", responseEntity.getBody());
-
-            // 세션 정보 체크
-            ResponseRecord loginUser = (ResponseRecord) session.getAttribute("loginUser");
-            log.info("세션에 저장된 사용자 정보: {}", loginUser.username());
-
-            return ResponseEntity.ok(responseEntity.getBody());
-        }
-
-        log.info("로그인에 실패했습니다.");
-        // 실패
-        return ResponseEntity.badRequest().body(responseEntity.getBody());
+        ResponseEntity<ResponseRecord> responseEntity = joinService.match(loginRequest);
+        return joinService.handleLoginResponse(responseEntity, session);
     }
 
     @PostMapping("/logout")

@@ -5,6 +5,7 @@ import com.example.demo.login.local.record.JoinRequestRecord;
 import com.example.demo.login.local.record.LoginRequestRecord;
 import com.example.demo.login.local.record.ResponseRecord;
 import com.example.demo.login.local.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ public class JoinService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public ResponseEntity<ResponseRecord> join(JoinRequestRecord joinRequest) {
         if (!isUniqueUsername(joinRequest.username())) {
@@ -53,7 +55,7 @@ public class JoinService {
 
 
     @Transactional(readOnly = true)
-    public ResponseEntity<ResponseRecord> find(LoginRequestRecord loginRequest) {
+    public ResponseEntity<ResponseRecord> match(LoginRequestRecord loginRequest) {
         try {
             Member member = loginRequest.toMemberEntity();   // 로그인할 Id, pw 넣을 때
             Optional<Member> user = memberRepository.findByUsername(member.getUsername());      // 해당 id가 존재하는지 여부
@@ -84,6 +86,7 @@ public class JoinService {
         }
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<ResponseRecord> handleJoinResponse(ResponseEntity<ResponseRecord> responseEntity) {
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             log.info("회원가입에 성공했습니다.");
@@ -91,5 +94,26 @@ public class JoinService {
         }
         log.info("회원가입에 실패했습니다.");
         return responseEntity;
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<ResponseRecord> handleLoginResponse(ResponseEntity<ResponseRecord> responseEntity, HttpSession session) {
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // 성공
+            log.info("로그인에 성공했습니다.");
+
+            // 세션 정보에 로그인 저장
+            session.setAttribute("loginUser", responseEntity.getBody());
+
+            // 세션 정보 체크
+            ResponseRecord loginUser = (ResponseRecord) session.getAttribute("loginUser");
+            log.info("세션에 저장된 사용자 정보: {}", loginUser.username());
+
+            return ResponseEntity.ok(responseEntity.getBody());
+        }
+
+        // 실패
+        log.info("로그인에 실패했습니다.");
+        return ResponseEntity.badRequest().body(responseEntity.getBody());
     }
 }
