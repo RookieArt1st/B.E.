@@ -24,13 +24,13 @@ import java.util.Optional;
 public class JoinService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public ResponseEntity<ResponseRecord> join(JoinRequestRecord joinRequest) {
         if (!isUniqueUsername(joinRequest.username())) {
             log.info("이미 존재하는 id가 있습니다. 중복 체크를 확인해주세요.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseRecord(0L, "Username already exists", "join fail"));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseRecord(0L, "Username already exists", "join fail"));
         }
         Member member = memberRepository.save(joinRequest.toMemberEntity(passwordEncoder.encode(joinRequest.pw())));
 
