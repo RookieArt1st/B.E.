@@ -11,19 +11,29 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
-@ExtendWith(MockitoExtension.class)
+@ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
+@SpringBootTest
 class JoinControllerTest {
     @InjectMocks
     private JoinController joinController;
@@ -31,21 +41,27 @@ class JoinControllerTest {
     private JoinService joinService;
 
     private MockMvc mockMvc;
+
     @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(joinController).build();
+    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc = MockMvcBuilders
+                .standaloneSetup(joinController)
+                .apply(documentationConfiguration(restDocumentation))
+                .build();
     }
+
     @Test
     @DisplayName("회원 가입을 확인합니다. (성공 케이스)")
     void create_success() throws Exception {
-        //given
-        JoinRequestRecord joinRequestRecord = new JoinRequestRecord("1234","jong_seok","홍은동","010-5133-5728","123-456-789-000");
+        // given
+        JoinRequestRecord joinRequestRecord = new JoinRequestRecord("1234", "jong_seok", "홍은동", "010-5133-5728", "123-456-789-000");
 
-        //when
+        // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/users/join")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(joinRequestRecord)));
+                        MockMvcRequestBuilders.post("/users/join")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(joinRequestRecord)))
+                .andDo(document("join-create"));
 
         // then
         MvcResult mvcResult = resultActions
@@ -65,9 +81,10 @@ class JoinControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/users/idCheck")
-                        .param("username", existingUsername)
-                        .contentType(MediaType.APPLICATION_JSON));
+                        MockMvcRequestBuilders.get("/users/idCheck")
+                                .param("username", existingUsername)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("idCheck-fail"));
 
         // then
         MvcResult mvcResult = resultActions
@@ -87,9 +104,10 @@ class JoinControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/users/idCheck")
-                        .param("username", uniqueUsername)
-                        .contentType(MediaType.APPLICATION_JSON));
+                        MockMvcRequestBuilders.get("/users/idCheck")
+                                .param("username", uniqueUsername)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("idCheck-success"));
 
         // then
         MvcResult mvcResult = resultActions

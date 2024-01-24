@@ -39,6 +39,9 @@ class LoginControllerTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private JoinService joinService;
+
     private MockMvc mockMvc;
 
 
