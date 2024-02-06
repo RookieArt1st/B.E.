@@ -30,10 +30,5 @@ spring:
                 format_sql: true      # ?? ?? ?? (??)
                 show_sql: true        # ?? ?? ??
 
-    security:
-        oauth2:
-            client:
-                registration:
-                  naver:
-                      client
-
+    config:
+        import: config.yml
