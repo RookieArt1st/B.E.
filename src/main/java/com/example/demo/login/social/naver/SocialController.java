@@ -1,5 +1,6 @@
 package com.example.demo.login.social.naver;
 
+import com.example.demo.login.social.kakao.service.KakaoService;
 import com.example.demo.login.social.naver.service.NaverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,14 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public class SocialController {
 
-    //private final 구글
-    //private final KakaoService kakaoService;
+    private final KakaoService kakaoService;
     private final NaverService naverService;
 
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String login(Model model) {
-        //model.addAttribute("appleUrl", appleService.getAppleLogin());
-        //model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
+        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
         model.addAttribute("naverUrl", naverService.getNaverLogin());
 
         return "index";
