@@ -1,7 +1,7 @@
-package com.example.demo.login.dto;
+package com.example.demo.google.dto;
 
-import com.example.demo.entities.BaseTimeEntity;
-import com.example.demo.login.enums.Role;
+import com.example.demo.google.entities.BaseTimeEntity;
+import com.example.demo.google.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

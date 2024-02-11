@@ -1,10 +1,10 @@
-package com.example.demo.login.service;
+package com.example.demo.google.service;
 
 
-import com.example.demo.config.OAuthAttributes;
-import com.example.demo.config.SessionUser;
-import com.example.demo.login.dto.User;
-import com.example.demo.login.repository.UserRepository;
+import com.example.demo.google.dto.OAuthAttributes;
+import com.example.demo.google.dto.SessionUser;
+import com.example.demo.google.dto.User;
+import com.example.demo.google.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
+    // 구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -35,6 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
+        System.out.println(attributes.getAttributes());
 
         httpSession.setAttribute("user", new SessionUser(user));
 
@@ -46,6 +49,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
+
+    /**
+     * 이미 존재하는 회원이라면 이름과 프로필이미지를 업데이트 해준다.
+     * 처음 가입하는 회원이라면 user 테이블을 생성한다.
+     **/
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
@@ -53,4 +61,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         return userRepository.save(user);
     }
+
+
 }

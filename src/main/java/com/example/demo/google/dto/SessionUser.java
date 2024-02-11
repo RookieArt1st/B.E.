@@ -1,6 +1,5 @@
-package com.example.demo.config;
+package com.example.demo.google.dto;
 
-import com.example.demo.login.dto.User;
 import java.io.Serializable;
 import lombok.Getter;
 

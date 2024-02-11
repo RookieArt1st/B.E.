@@ -1,7 +1,6 @@
-package com.example.demo.config;
+package com.example.demo.google.dto;
 
-import com.example.demo.login.dto.User;
-import com.example.demo.login.enums.Role;
+import com.example.demo.google.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 

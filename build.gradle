@@ -39,6 +39,8 @@ dependencies {
 	//spring security
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.6.RELEASE'
+
+
 }
 
 tasks.named('test') {
