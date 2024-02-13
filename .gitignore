@@ -35,3 +35,4 @@ Thumbs.db
 
 # Ignore YAML files
 *.yml
+*.xml
