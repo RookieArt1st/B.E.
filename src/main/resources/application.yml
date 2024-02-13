@@ -1,5 +1,11 @@
+server:
+    port: 8080 # ?? ?? ????
+    servlet:
+      session:
+          timeout: 30m
+
 spring:
-  security:
+    security:
     oauth2:
       client:
         registration:
@@ -8,16 +14,30 @@ spring:
             client-secret: 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
             client-id: 737182155708-e9vgbl5b9on3rli2712m8m7q2jn73ep5.apps.googleusercontent.com
             scope: profile,email
-        provider:
-          kakao:
-            tokenUri: https://kauth.kakao.com/oauth/token
-            authorizationUri: https://kauth.kakao.com/oauth/authorize
-            userNameAttribute: id
-            userInfoUri: https://kapi.kakao.com/v2/user/me
-  profiles:
-    include: oauth
-  datasource:
-    password: '1234'
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    url: jdbc:mysql://localhost:3306/Art1st?autoReconnect=true
+    # H2 Database ??
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: 'jdbc:h2:mem:test'   # H2 DB ?? ?? (In-Memory Mode)
+        #url: 'jdbc:h2:~/test'    # H2 DB ?? ?? (Embedded Mode)
+        username: user        # H2 DB ?? ID (??? ??)
+        password: 1234        # H2 DB ?? PW (??? ??)
+
+    # H2 Console ??
+    h2:
+        console: # H2 DB? ??? ??? ? ?? ??
+            enabled: true           # H2 Console ?? ??
+            path: /h2-console       # H2 Console ?? ??
+
+    # JPA ??
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: create        # DB ??? ?? (none, create, create-drop, update, validate)
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.H2Dialect
+                format_sql: true      # ?? ?? ?? (??)
+                show_sql: true        # ?? ?? ??
+
+    config:
+        import: config.yml
