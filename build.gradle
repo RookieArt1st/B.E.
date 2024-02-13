@@ -67,3 +67,5 @@ asciidoctor { // asciidoctor 테스크 성정
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+

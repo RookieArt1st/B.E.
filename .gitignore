@@ -33,6 +33,5 @@ logs/
 .DS_Store
 Thumbs.db
 
-# Ignore YAML files
 *.yml
 *.xml

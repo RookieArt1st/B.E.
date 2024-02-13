@@ -5,6 +5,15 @@ server:
           timeout: 30m
 
 spring:
+    security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-url: http://localhost:8080/login/oauth2/code/google
+            client-secret: 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
+            client-id: 737182155708-e9vgbl5b9on3rli2712m8m7q2jn73ep5.apps.googleusercontent.com
+            scope: profile,email
     # H2 Database ??
     datasource:
         driver-class-name: org.h2.Driver
