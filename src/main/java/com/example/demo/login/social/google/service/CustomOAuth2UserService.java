@@ -1,10 +1,10 @@
-package com.example.demo.google.service;
+package com.example.demo.login.social.google.service;
 
 
-import com.example.demo.google.dto.OAuthAttributes;
-import com.example.demo.google.dto.SessionUser;
-import com.example.demo.google.dto.User;
-import com.example.demo.google.repository.UserRepository;
+import com.example.demo.login.social.google.dto.OAuthAttributes;
+import com.example.demo.login.social.google.dto.SessionUser;
+import com.example.demo.login.social.google.dto.User;
+import com.example.demo.login.social.google.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor

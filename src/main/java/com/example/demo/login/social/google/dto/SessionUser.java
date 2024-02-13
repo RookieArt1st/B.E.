@@ -1,4 +1,4 @@
-package com.example.demo.google.dto;
+package com.example.demo.login.social.google.dto;
 
 import java.io.Serializable;
 import lombok.Getter;
