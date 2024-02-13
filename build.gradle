@@ -46,18 +46,6 @@ dependencies {
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.mockito:mockito-core:5.8.0'                     // Mockito Core
 
-
-	// for google Login
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-	// mysql Connection
-	runtimeOnly 'com.mysql:mysql-connector-j'
-
-	//spring security
-	implementation 'org.springframework.security:spring-security-test'
-	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.6.RELEASE'
-
 	// asciidoctorExt에 의존성 추가
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	// MockMvc 의존성 추가
