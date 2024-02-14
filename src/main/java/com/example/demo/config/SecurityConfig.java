@@ -1,4 +1,4 @@
-package com.example.demo.login.social.google.config;
+package com.example.demo.config;
 
 import com.example.demo.login.social.google.enums.Role;
 import com.example.demo.login.social.google.service.CustomOAuth2UserService;
@@ -34,5 +34,10 @@ public class SecurityConfig {
                       userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)));
 
       return http.build();
+   }
+
+   @Bean
+   public PasswordEncoder passwordEncoder(){
+      return new BCryptPasswordEncoder();
    }
 }
