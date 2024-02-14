@@ -85,7 +85,7 @@ public class NaverService {
     }
 
     @Transactional
-    private void getUserInfoWithToken(String accessToken) throws Exception {
+    public void getUserInfoWithToken(String accessToken) throws Exception {
         //HttpHeader 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);

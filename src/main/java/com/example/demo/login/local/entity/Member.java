@@ -20,7 +20,7 @@ public class Member {
 
     private String password; // "pw"를 "password"로 변경
     private String username;
-    private LocalDateTime createdAt = LocalDateTime.now(); // 현재 시간으로 초기화
+    private LocalDateTime createdAt;
     private MemberType role;
     private boolean isArtist;
     private String image;

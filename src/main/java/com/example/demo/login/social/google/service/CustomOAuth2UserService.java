@@ -3,7 +3,7 @@ package com.example.demo.login.social.google.service;
 
 import com.example.demo.login.social.google.dto.OAuthAttributes;
 import com.example.demo.login.social.google.dto.SessionUser;
-import com.example.demo.login.social.google.dto.User;
+import com.example.demo.login.social.google.dto.GoogleDto;
 import com.example.demo.login.social.google.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +35,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        User user = saveOrUpdate(attributes);
+        GoogleDto googleDto = saveOrUpdate(attributes);
         System.out.println(attributes.getAttributes());
 
-        httpSession.setAttribute("user", new SessionUser(user));
+        httpSession.setAttribute("user", new SessionUser(googleDto));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(
-                        user.getRoleKey())),
+                        googleDto.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
         );
@@ -53,12 +53,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * 이미 존재하는 회원이라면 이름과 프로필이미지를 업데이트 해준다.
      * 처음 가입하는 회원이라면 user 테이블을 생성한다.
      **/
-    private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
+    private GoogleDto saveOrUpdate(OAuthAttributes attributes) {
+        GoogleDto googleDto = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
                 .orElse(attributes.toEntity());
 
-        return userRepository.save(user);
+        return userRepository.save(googleDto);
     }
 
 

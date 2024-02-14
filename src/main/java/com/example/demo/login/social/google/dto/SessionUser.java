@@ -9,10 +9,10 @@ public class SessionUser implements Serializable {
     private String email;
     private String picture;
 
-    public SessionUser(User user){
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.picture = user.getPicture();
+    public SessionUser(GoogleDto googleDto){
+        this.name = googleDto.getName();
+        this.email = googleDto.getEmail();
+        this.picture = googleDto.getPicture();
     }
 
 }
