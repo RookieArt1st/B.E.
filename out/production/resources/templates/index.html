@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>소셜로그인 예제</title>
+</head>
+<body>
+<div>
+<!--    <p><a th:href="@{|${naverUrl}|}">네이버로그인</a></p>-->
+<!--    <p><a th:href="@{|${kakaoUrl}|}">카카오로그인</a></p>-->
+    <a href="/oauth2/authorization/naver" class="btn btn-success active" role="button"> Naver Login</a>
+    <a href="/oauth2/authorization/kakao" class="btn btn-secondary active" role="button"> Kakao Login</a>
+    <a href="/oauth2/authorization/google" class="btn btn-secondary active" role="button"> Google Login</a>
+</div>
+</body>
+</html>

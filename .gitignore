@@ -32,3 +32,9 @@ logs/
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+*.yml
+*.xml
+
+*.out/
+.idea/workspace.xml
