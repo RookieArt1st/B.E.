@@ -1,4 +1,4 @@
-package com.example.demo.login.social.google.enums;
+package com.example.demo.login.social.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,10 @@
-package com.example.demo.login.social.google.service;
+package com.example.demo.login.social.service;
 
 
-import com.example.demo.login.social.google.dto.OAuthAttributes;
-import com.example.demo.login.social.google.dto.SessionUser;
-import com.example.demo.login.social.google.dto.GoogleDto;
-import com.example.demo.login.social.google.repository.UserRepository;
+import com.example.demo.login.social.dto.SessionUser;
+import com.example.demo.login.social.dto.SocialDto;
+import com.example.demo.login.social.dto.OAuthAttributes;
+import com.example.demo.login.social.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,10 +35,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        GoogleDto googleDto = saveOrUpdate(attributes);
+//        if(registrationId.equals("google")) {
+//            attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+//        }
+
+        SocialDto googleDto = saveOrUpdate(attributes);
         System.out.println(attributes.getAttributes());
 
-        httpSession.setAttribute("user", new SessionUser(googleDto));
+        httpSession.setAttribute("googleDto", new SessionUser(googleDto));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(
@@ -53,9 +57,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      * 이미 존재하는 회원이라면 이름과 프로필이미지를 업데이트 해준다.
      * 처음 가입하는 회원이라면 user 테이블을 생성한다.
      **/
-    private GoogleDto saveOrUpdate(OAuthAttributes attributes) {
-        GoogleDto googleDto = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+    private SocialDto saveOrUpdate(OAuthAttributes attributes) {
+        SocialDto googleDto = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName()))
                 .orElse(attributes.toEntity());
 
         return userRepository.save(googleDto);

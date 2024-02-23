@@ -1,4 +1,4 @@
-package com.example.demo.login.social.google.entities;
+package com.example.demo.login.social.entities;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

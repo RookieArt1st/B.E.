@@ -1,7 +1,7 @@
-package com.example.demo.login.social.google.dto;
+package com.example.demo.login.social.dto;
 
-import com.example.demo.login.social.google.entities.BaseTimeEntity;
-import com.example.demo.login.social.google.enums.Role;
+import com.example.demo.login.social.entities.BaseTimeEntity;
+import com.example.demo.login.social.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="googledto")
-public class GoogleDto extends BaseTimeEntity {
+@Table(name="socialuser")
+public class SocialDto extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,17 +37,15 @@ public class GoogleDto extends BaseTimeEntity {
     private Role role;
 
     @Builder
-    public GoogleDto(String name, String email, String picture, Role role){
+    public SocialDto(String name, String email, String picture, Role role){
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
     }
 
-    public GoogleDto update(String name, String picture){
+    public SocialDto update(String name){
         this.name = name;
-        this.picture = picture;
-
         return this;
     }
 

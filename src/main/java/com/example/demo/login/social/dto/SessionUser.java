@@ -1,4 +1,4 @@
-package com.example.demo.login.social.google.dto;
+package com.example.demo.login.social.dto;
 
 import java.io.Serializable;
 import lombok.Getter;
@@ -9,7 +9,7 @@ public class SessionUser implements Serializable {
     private String email;
     private String picture;
 
-    public SessionUser(GoogleDto googleDto){
+    public SessionUser(SocialDto googleDto){
         this.name = googleDto.getName();
         this.email = googleDto.getEmail();
         this.picture = googleDto.getPicture();
